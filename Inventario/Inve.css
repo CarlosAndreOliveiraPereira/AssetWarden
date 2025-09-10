@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
 * {
     padding: 0;
     margin: 0;
@@ -7,28 +9,27 @@
 
 body {
     width: 100%;
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     background: #181918;
+    padding: 2rem;
 }
 
 .container {
     width: 90%;
     max-width: 1100px;
-    height: auto;
-    display: flex;
-    flex-wrap: wrap;
-    box-shadow: 5px 5px 15px ;
-    border-radius: 10px;
-    overflow: hidden;
     background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(239, 180, 33, 0.2);
+    display: flex;
+    overflow: hidden;
 }
 
 .form-image {
     width: 50%;
-    background-color: #181918;
+    background-color: #f8f9fa;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -37,7 +38,7 @@ body {
 
 .form-image img {
     width: 100%;
-    max-width: 450px;
+    max-width: 400px;
 }
 
 .form {
@@ -45,18 +46,16 @@ body {
     padding: 2.5rem;
     display: flex;
     flex-direction: column;
-    justify-content: center;
 }
 
 .form-header {
     text-align: center;
-    margin-bottom: 2rem;
-    position: relative;
+    margin-bottom: 1.5rem;
 }
 
 .form-header h1 {
     font-size: 1.8rem;
-    font-weight: 600;
+    font-weight: 700;
 }
 
 .form-header h1::after {
@@ -64,7 +63,7 @@ body {
     display: block;
     width: 5rem;
     height: 4px;
-    background-color: #ffffff;
+    background-color: #efb421; /* CORRIGIDO */
     margin: 0.5rem auto 0;
     border-radius: 10px;
 }
@@ -73,74 +72,89 @@ body {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    gap: 1rem;
 }
 
 .input-box {
     display: flex;
     flex-direction: column;
     width: 48%;
+    margin-bottom: 1rem;
 }
 
-.input-box textarea,
-.input-box input {
-    margin-top: 0.4rem;
-    padding: 0.8rem 1rem;
-    border: none;
-    border-radius: 10px;
-    box-shadow: 1px 1px 6px #efb421;
-    font-size: 0.9rem;
-}
-
-.input-box textarea:focus,
-.input-box input:focus {
-    outline: 2px solid #efb421;
+.input-box.full-width {
+    width: 100%;
 }
 
 .input-box label {
     font-size: 0.85rem;
     font-weight: 600;
-    color: #181918;
+    color: #333;
+    margin-bottom: 0.4rem;
+}
+
+.input-box input,
+.input-box textarea {
+    padding: 0.8rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    transition: all 0.2s ease-in-out;
+    width: 100%;
+}
+
+.input-box input:focus,
+.input-box textarea:focus {
+    outline: none;
+    border-color: #efb421;
+    box-shadow: 0 0 0 3px rgba(239, 180, 33, 0.2);
+}
+
+textarea {
+    resize: vertical; /* Permite que o usuário redimensione verticalmente */
 }
 
 .continue-button {
-    margin-top: 2rem;
-    width: 100%;
+    margin-top: 1.5rem;
 }
 
 .continue-button button {
     width: 100%;
-    padding: 0.75rem;
+    padding: 0.8rem;
     border: none;
     border-radius: 8px;
     background-color: #efb421;
-    color: #ffffff;
+    color: #181918;
     font-size: 1rem;
-    font-weight: 500;
+    font-weight: 600;
     cursor: pointer;
     transition: background 0.3s ease;
 }
 
 .continue-button button:hover {
-    background-color: #181918;
+    background-color: #e2a812;
+}
+
+/* Estilos para mensagens de feedback */
+#feedback-message {
+    text-align: center;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    font-weight: 500;
+    display: none; /* Começa escondido */
+}
+#feedback-message.success {
+    background-color: #d4edda;
+    color: #155724;
+    display: block;
+}
+#feedback-message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    display: block;
 }
 
 @media screen and (max-width: 1024px) {
-    .container {
-        flex-direction: column;
-    }
-
-    .form-image {
-        width: 100%;
-        order: 2;
-    }
-
-    .form {
-        width: 100%;
-        order: 1;
-    }
-
-    .input-box {
-        width: 100%;
-    }
+    .container { flex-direction: column; }
+    .form-image, .form { width: 100%; }
 }

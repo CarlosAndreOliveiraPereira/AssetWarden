@@ -99,6 +99,7 @@ body {
     box-shadow: 0 0 0 3px rgba(239, 180, 33, 0.2);
 }
 
+/* Estilos para validação de erro */
 .input-box input.error {
     border-color: #e74c3c;
 }
@@ -109,32 +110,23 @@ body {
     color: #e74c3c;
     font-size: 0.8rem;
     margin-top: 0.3rem;
-    height: 1rem;
+    height: 1rem; /* Garante que o layout não "pule" */
 }
 
-/* ESTILOS CORRIGIDOS PARA O ÍCONE DE SENHA */
+/* Container da senha para posicionar o ícone */
 .password-container {
     position: relative;
 }
 .password-container input {
     padding-right: 3rem; /* Espaço para o ícone */
 }
-.toggle-password {
+#toggle-password {
     position: absolute;
     top: 68%;
     right: 1rem;
     transform: translateY(-50%);
     cursor: pointer;
     color: #888;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.eye-icon {
-    display: none; /* Esconde os ícones por padrão */
-}
-.eye-icon.active {
-    display: block; /* Mostra apenas o ícone ativo */
 }
 
 .continue-button {
@@ -177,6 +169,7 @@ p a:hover {
     text-decoration: underline;
 }
 
+/* ✅ Responsividade CORRIGIDA */
 @media screen and (max-width: 480px) {
     .container {
         padding: 2rem 1.5rem;

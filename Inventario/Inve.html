@@ -8,67 +8,60 @@
 <body>
     <div class="container">
         <div class="form-image">
-            <img src="../img/logo mysa amarelo@300x.png"Cadastro">
+            <img src="../img/logo mysa amarelo@300x.png" alt="Logo">
         </div>
         <form class="form" id="cadastro-form">
             <div class="form-header">
                 <h1>Cadastro de Dispositivo</h1>
             </div>
 
+            <div id="feedback-message"></div>
+
             <div class="input-group">
                 <div class="input-box">
                     <label for="localidade">Localidade</label>
                     <input id="localidade" name="localidade" type="text" placeholder="Ex: São Paulo" required>
                 </div>
-
                 <div class="input-box">
                     <label for="nome_dispositivo">Nome do Dispositivo</label>
                     <input id="nome_dispositivo" name="nome_dispositivo" type="text" placeholder="Ex: Notebook Dell" required>
                 </div>
-
                 <div class="input-box">
                     <label for="numero_serie">Número de Série</label>
                     <input id="numero_serie" name="numero_serie" type="text" placeholder="Ex: SN1234567890" required>
                 </div>
-
                 <div class="input-box">
                     <label for="nota_fiscal">Nota Fiscal</label>
                     <input id="nota_fiscal" name="nota_fiscal" type="text" placeholder="Ex: NF123456" required>
                 </div>
-
                 <div class="input-box">
                     <label for="responsavel">Responsável</label>
                     <input id="responsavel" name="responsavel" type="text" placeholder="Ex: João Silva" required>
                 </div>
-
                 <div class="input-box">
                     <label for="email">E-mail</label>
                     <input id="email" name="email" type="email" placeholder="Ex: joao@email.com" required>
                 </div>
-
                 <div class="input-box">
                     <label for="setor">Setor</label>
                     <input id="setor" name="setor" type="text" placeholder="Ex: TI" required>
                 </div>
-
                 <div class="input-box">
                     <label for="windows_update_ativo">Windows Update Ativo</label>
                     <input id="windows_update_ativo" name="windows_update_ativo" type="text" placeholder="Sim ou Não" required>
                 </div>
-
                 <div class="input-box">
                     <label for="sistema_operacional">Sistema Operacional</label>
-                    <input id="sistema_operacional" name="sistema_operacional" type="text" placeholder="Ex: Windows 10" required>
+                    <input id="sistema_operacional" name="sistema_operacional" type="text" placeholder="Ex: Windows 11 Pro" required>
                 </div>
-
-                <div class="input-box" style="width: 100%;">
+                <div class="input-box full-width">
                     <label for="observacao">Observação</label>
-                    <textarea id="observacao" name="observacao" placeholder="Digite observações aqui..." rows="4" required style="padding: 0.8rem 1.2rem; border-radius: 10px; border: none; box-shadow: 1px 1px 6px #0000001c;"></textarea>
+                    <textarea id="observacao" name="observacao" placeholder="Digite observações aqui..." rows="4"></textarea>
                 </div>
             </div>
 
             <div class="continue-button">
-                <button type="submit">Enviar</button>
+                <button type="submit">Cadastrar Dispositivo</button>
             </div>
         </form>
     </div>

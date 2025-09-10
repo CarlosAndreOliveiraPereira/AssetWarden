@@ -7,26 +7,26 @@
     <link rel="stylesheet" href="login.css">
 </head>
 <body>
-    <!-- Logo grande de fundo -->
     <img src="../img/logo mysa amarelo@300x.png" alt="Logo de fundo" class="logo-fundo">
 
-    <!-- Formulário de login -->
     <div class="container">
         <div class="form">
             <div class="form-header">
-                <!-- Logo interna (menor) -->
                 <img src="../img/logo mysa amarelo@300x.png" alt="Logo da Empresa" class="logo-interno">
                 <h1>Login do Inventário</h1>
             </div>
-            <form id="login-form">
+            <form id="login-form" novalidate>
                 <div class="input-box">
                     <label for="email">E-mail</label>
                     <input type="email" id="email" name="email" placeholder="Digite seu e-mail" required>
                 </div>
-                <div class="input-box">
+                <div class="input-box password-container">
                     <label for="password">Senha</label>
                     <input type="password" id="password" name="password" placeholder="Digite sua senha" required>
                 </div>
+
+                <span class="error-message" id="login-error"></span>
+
                 <div class="continue-button">
                     <button type="submit">Entrar</button>
                 </div>                

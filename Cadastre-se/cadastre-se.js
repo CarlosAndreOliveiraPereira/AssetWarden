@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const confirmarSenhaInput = document.getElementById("confirm-password");
     const togglePassword = document.getElementById("toggle-password");
 
-    // --- FUNÇÕES DE VALIDAÇÃO ---
+    // --- FUNÇÕES DE VALIDAÇÃO (iguais às de antes) ---
 
     const showError = (input, message) => {
         const errorSpan = document.getElementById(`${input.id}-error`);
@@ -22,16 +22,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
     const validateForm = () => {
         let isValid = true;
-        // Limpa todos os erros antes de validar novamente
         [nomeInput, emailInput, senhaInput, confirmarSenhaInput].forEach(clearError);
 
-        // 1. Validação do Nome: não pode estar vazio
         if (nomeInput.value.trim() === "") {
             showError(nomeInput, "O nome completo é obrigatório.");
             isValid = false;
         }
 
-        // 2. Validação de formato de e-mail
         const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
         if (emailInput.value.trim() === "") {
             showError(emailInput, "O e-mail é obrigatório.");
@@ -41,7 +38,6 @@ document.addEventListener("DOMContentLoaded", function() {
             isValid = false;
         }
 
-        // 3. Validação de senha: mínimo de 6 caracteres
         if (senhaInput.value.trim() === "") {
             showError(senhaInput, "A senha é obrigatória.");
             isValid = false;
@@ -50,7 +46,6 @@ document.addEventListener("DOMContentLoaded", function() {
             isValid = false;
         }
 
-        // 4. Validando se as senhas coincidem
         if (confirmarSenhaInput.value.trim() === "") {
             showError(confirmarSenhaInput, "A confirmação de senha é obrigatória.");
             isValid = false;
@@ -62,30 +57,52 @@ document.addEventListener("DOMContentLoaded", function() {
         return isValid;
     };
 
-    // --- EVENT LISTENERS ---
+    // --- EVENT LISTENER DO FORMULÁRIO (MODIFICADO) ---
 
-    form.addEventListener("submit", function(event) {
+    form.addEventListener("submit", async function(event) {
         event.preventDefault();
 
         if (validateForm()) {
-            // --- ATENÇÃO: Risco de Segurança ---
-            // O código abaixo armazena a senha no navegador.
-            // Isso NUNCA deve ser feito em um site real (produção).
-            // O correto é enviar os dados para um servidor (backend) que fará o armazenamento seguro.
-            localStorage.setItem("email", emailInput.value);
-            localStorage.setItem("senha", senhaInput.value); // Apenas para demonstração
+            const dadosCadastro = {
+                nome: nomeInput.value,
+                email: emailInput.value,
+                senha: senhaInput.value,
+            };
 
-            alert("Cadastro realizado com sucesso!");
-            window.location.href = "../login/login.html";
+            try {
+                // Envia os dados para o backend com a API fetch
+                const response = await fetch('http://127.0.0.1:5000/cadastrar', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(dadosCadastro),
+                });
+
+                const result = await response.json();
+
+                if (response.ok) { // Se a resposta for sucesso (status 2xx)
+                    alert(result.message); // "Usuário cadastrado com sucesso!"
+                    window.location.href = "../login/login.html"; // Redireciona para o login
+                } else { // Se a resposta for erro (status 4xx ou 5xx)
+                    alert(`Erro: ${result.message}`); // Ex: "Este e-mail já está em uso!"
+                }
+
+            } catch (error) {
+                console.error('Falha na comunicação com o servidor:', error);
+                alert('Não foi possível se conectar ao servidor. Tente novamente mais tarde.');
+            }
         }
     });
 
-    // Funcionalidade para mostrar/ocultar senha
+    // --- FUNCIONALIDADE DE MOSTRAR/OCULTAR SENHA (igual à de antes) ---
+    const eyeOpenIcon = togglePassword.querySelector('.eye-open');
+    const eyeClosedIcon = togglePassword.querySelector('.eye-closed');
+
     togglePassword.addEventListener("click", function() {
         const type = senhaInput.getAttribute("type") === "password" ? "text" : "password";
         senhaInput.setAttribute("type", type);
-        
-        // Altera o ícone (opcional, mas melhora a UX)
-        this.classList.toggle("bi-eye-slash-fill");
+        eyeOpenIcon.classList.toggle('active');
+        eyeClosedIcon.classList.toggle('active');
     });
 });

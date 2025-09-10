@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
 * {
     padding: 0;
     margin: 0;
@@ -9,30 +11,12 @@ body {
     width: 100%;
     min-height: 100vh;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
     background: #181918;
-    padding: 2rem 1rem;
-    position: relative; /* necessário para posicionamento da logo-fundo */
-}
-* {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-    font-family: 'Inter', sans-serif;
-}
-
-body {
-    width: 100%;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: #181918;
-    padding: 2rem 1rem;
-    position: relative; /* Necessário para a logo de fundo */
+    padding: 1rem;
+    position: relative;
+    overflow: hidden;
 }
 
 .logo-fundo {
@@ -40,82 +24,102 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    max-width: 80vw;
+    max-width: 90vw;
     height: auto;
     z-index: 0;
-    opacity: 0.1; /* Sutil para não atrapalhar */
+    opacity: 0.05;
     pointer-events: none;
 }
 
 .container {
     width: 100%;
-    max-width: 400px;
+    max-width: 420px;
     background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 5px 5px 15px #efb421;
-    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(239, 180, 33, 0.2);
+    padding: 2.5rem;
     z-index: 1;
-    position: relative;
-}
-
-.form {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
 }
 
 .form-header {
     text-align: center;
     margin-bottom: 2rem;
-    position: relative;
 }
 
 .logo-interno {
     width: 100px;
-    height: auto;
-    display: block;
     margin: 0 auto 1rem auto;
 }
 
 .form-header h1 {
-    font-size: 1.5rem;
-    font-weight: 600;
+    font-size: 1.8rem;
+    font-weight: 700;
 }
 
 .form-header h1::after {
     content: '';
     display: block;
-    width: 4rem;
-    height: 3px;
+    width: 5rem;
+    height: 4px;
     background-color: #efb421;
     margin: 0.5rem auto 0;
     border-radius: 10px;
 }
 
 .input-box {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 1.2rem;
+    margin-bottom: 1.1rem;
 }
 
 .input-box label {
-    font-size: 0.9rem;
+    display: block;
+    font-size: 0.85rem;
     font-weight: 600;
-    color: #181918;
-    margin-bottom: 0.3rem;
+    color: #333;
+    margin-bottom: 0.4rem;
 }
 
 .input-box input {
-    padding: 0.75rem 1rem;
-    border: none;
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 1px solid #ccc;
     border-radius: 8px;
-    box-shadow: 1px 1px 6px #181918;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
+    transition: all 0.2s ease-in-out;
 }
 
 .input-box input:focus {
-    outline: 2px solid #efb421;
+    outline: none;
+    border-color: #efb421;
+    box-shadow: 0 0 0 3px rgba(239, 180, 33, 0.2);
+}
+
+.password-container {
+    position: relative;
+}
+.password-container input {
+    padding-right: 3rem;
+}
+.toggle-password {
+    position: absolute;
+    top: 68%;
+    right: 1rem;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #888;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.eye-icon { display: none; }
+.eye-icon.active { display: block; }
+
+.error-message {
+    display: block;
+    color: #e74c3c;
+    font-size: 0.85rem;
+    text-align: center;
+    height: 1.2rem;
+    margin-bottom: 0.5rem;
 }
 
 .continue-button {
@@ -124,49 +128,40 @@ body {
 
 .continue-button button {
     width: 100%;
-    padding: 0.75rem;
+    padding: 0.8rem;
     border: none;
     border-radius: 8px;
     background-color: #efb421;
-    color: white;
+    color: #181918;
     font-size: 1rem;
-    font-weight: 500;
+    font-weight: 600;
     cursor: pointer;
     transition: background 0.3s ease;
 }
 
 .continue-button button:hover {
-    background-color: #181918;
+    background-color: #e2a812;
 }
 
 p {
     text-align: center;
-    margin-top: 1rem;
+    margin-top: 1.5rem;
     font-size: 0.9rem;
+    color: #555;
 }
 
 p a {
-    color: #000000;
+    color: #181918;
     font-weight: bold;
     text-decoration: none;
 }
 
 p a:hover {
+    color: #efb421;
     text-decoration: underline;
 }
 
-/* Responsivo */
 @media screen and (max-width: 480px) {
-    .container {
-        padding: 1.5rem 1rem;
-    }
-
-    .form-header h1 {
-        font-size: 1.3rem;
-    }
-
-    .logo-fundo {
-        max-width: 90vw;
-    }
+    .container { padding: 2rem 1.5rem; }
+    .form-header h1 { font-size: 1.5rem; }
 }
-
