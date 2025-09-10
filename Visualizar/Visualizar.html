@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Máquinas Cadastradas</title>
+  <link rel="stylesheet" href="Visualizar.css">
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Logo adicionada aqui -->
+  <div class="logo-container">
+    <img src="../img/logo mysa preto@300x.png" alt="Logo Mysa">
+  </div>
+
+  <h1>Máquinas Cadastradas</h1>
+
+  <div class="pesquisa-container">
+    <input type="text" id="pesquisa" placeholder="Pesquisar por qualquer informação...">
+    <img src="../img/lupa.png" alt="Ícone de pesquisa" class="lupa">
+  </div>
+
+  <table id="tabelaMaquinas">
+    <thead>
+      <tr>
+        <th>Localidade</th>
+        <th>Dispositivo</th>
+        <th>Série</th>
+        <th>Nota Fiscal</th>
+        <th>Responsável</th>
+        <th>E-mail</th>
+        <th>Setor</th>
+        <th>Win Update</th>
+        <th>SO</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <div class="sem-dados" id="semDados">Nenhuma máquina encontrada.</div>
+</div>
+
+<script src="../Visualizar/Visualizar.js"></script>
+</body>
+</html>
