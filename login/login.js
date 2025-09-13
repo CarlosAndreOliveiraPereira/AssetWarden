@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         try {
             // Envia os dados para o novo endpoint no backend
-            const response = await fetch('http://127.0.0.1:5000/cadastrar_dispositivo', {
+            const response = await fetch('../localhost/AssetWarden/api/cadastrar_usuario.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

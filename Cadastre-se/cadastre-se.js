@@ -4,10 +4,8 @@ document.addEventListener("DOMContentLoaded", function() {
     const emailInput = document.getElementById("email");
     const senhaInput = document.getElementById("password");
     const confirmarSenhaInput = document.getElementById("confirm-password");
-    const togglePassword = document.getElementById("toggle-password");
 
-    // --- FUNÇÕES DE VALIDAÇÃO (iguais às de antes) ---
-
+    // --- FUNÇÕES DE VALIDAÇÃO ---
     const showError = (input, message) => {
         const errorSpan = document.getElementById(`${input.id}-error`);
         input.classList.add("error");
@@ -58,7 +56,6 @@ document.addEventListener("DOMContentLoaded", function() {
     };
 
     // --- EVENT LISTENER DO FORMULÁRIO (MODIFICADO) ---
-
     form.addEventListener("submit", async function(event) {
         event.preventDefault();
 
@@ -70,8 +67,9 @@ document.addEventListener("DOMContentLoaded", function() {
             };
 
             try {
-                // Envia os dados para o backend com a API fetch
-                const response = await fetch('http://127.0.0.1:5000/cadastrar', {
+                // ****** AQUI ESTÁ A MUDANÇA PRINCIPAL ******
+                // Enviando os dados para o novo backend PHP na pasta /api/
+                const response = await fetch('../localhost/AssetWarden/api/cadastrar_usuario.php', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -85,24 +83,15 @@ document.addEventListener("DOMContentLoaded", function() {
                     alert(result.message); // "Usuário cadastrado com sucesso!"
                     window.location.href = "../login/login.html"; // Redireciona para o login
                 } else { // Se a resposta for erro (status 4xx ou 5xx)
+                    // Mostra o erro em um local mais visível, como no campo de email
+                    showError(emailInput, result.message);
                     alert(`Erro: ${result.message}`); // Ex: "Este e-mail já está em uso!"
                 }
 
             } catch (error) {
                 console.error('Falha na comunicação com o servidor:', error);
-                alert('Não foi possível se conectar ao servidor. Tente novamente mais tarde.');
+                alert('Não foi possível se conectar ao servidor. Verifique se o XAMPP está ligado e tente novamente mais tarde.');
             }
         }
-    });
-
-    // --- FUNCIONALIDADE DE MOSTRAR/OCULTAR SENHA (igual à de antes) ---
-    const eyeOpenIcon = togglePassword.querySelector('.eye-open');
-    const eyeClosedIcon = togglePassword.querySelector('.eye-closed');
-
-    togglePassword.addEventListener("click", function() {
-        const type = senhaInput.getAttribute("type") === "password" ? "text" : "password";
-        senhaInput.setAttribute("type", type);
-        eyeOpenIcon.classList.toggle('active');
-        eyeClosedIcon.classList.toggle('active');
     });
 });
