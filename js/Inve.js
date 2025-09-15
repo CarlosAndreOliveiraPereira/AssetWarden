@@ -18,15 +18,15 @@ document.getElementById("cadastro-form").addEventListener("submit", async functi
     }
 
     try {
-    // ATUALIZE A LINHA ABAIXO
-    // A URL deve ser o caminho completo a partir da raiz do seu servidor local
-    const response = await fetch('../localhost/AssetWarden/api/cadastrar_dispositivo.php', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(dispositivoData),
-    });
+        // --- CORREÇÃO APLICADA AQUI ---
+        // A URL foi ajustada para o caminho relativo correto.
+        const response = await fetch('../api/cadastrar_dispositivo.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(dispositivoData),
+        });
 
         const result = await response.json();
 
@@ -36,7 +36,7 @@ document.getElementById("cadastro-form").addEventListener("submit", async functi
             event.target.reset(); // Limpa o formulário
             // Opcional: redirecionar após um tempo
             setTimeout(() => {
-                window.location.href = "../Visualizar/Visualizar.html";
+                window.location.href = "Visualizar.html"; // Caminho corrigido
             }, 2000); // Redireciona após 2 segundos
         } else { // Erro (status 4xx, 5xx)
             feedbackMessage.textContent = `Erro: ${result.message}`;

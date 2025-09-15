@@ -38,9 +38,9 @@ document.addEventListener("DOMContentLoaded", () => {
         mostrarMaquinas(filtradas);
     }
 
-    // Busca os dados do PHP via fetch
-    // ATENÇÃO: Altere o caminho abaixo para o local correto do seu script PHP
-     fetch("http://localhost/AssetWarden/api/listar_maquinas.php")
+    // --- CORREÇÃO APLICADA AQUI ---
+    // O caminho foi ajustado para a URL relativa correta do script PHP.
+    fetch("../api/listar_maquinas.php")
         .then(response => {
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);

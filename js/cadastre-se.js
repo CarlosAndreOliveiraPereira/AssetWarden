@@ -67,9 +67,9 @@ document.addEventListener("DOMContentLoaded", function() {
             };
 
             try {
-                // ****** AQUI ESTÁ A MUDANÇA PRINCIPAL ******
-                // Enviando os dados para o novo backend PHP na pasta /api/
-                const response = await fetch('../localhost/AssetWarden/api/cadastrar_usuario.php', {
+                // --- CORREÇÃO APLICADA AQUI ---
+                // A URL foi ajustada para o caminho relativo correto.
+                const response = await fetch('../api/cadastrar_usuario.php', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
                 if (response.ok) { // Se a resposta for sucesso (status 2xx)
                     alert(result.message); // "Usuário cadastrado com sucesso!"
-                    window.location.href = "../login/login.html"; // Redireciona para o login
+                    window.location.href = "login.html"; // Redireciona para o login
                 } else { // Se a resposta for erro (status 4xx ou 5xx)
                     // Mostra o erro em um local mais visível, como no campo de email
                     showError(emailInput, result.message);
