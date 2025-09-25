@@ -3,19 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <title>Cadastro de Dispositivos</title>
+    <link rel="stylesheet" href="../css/shared.css">
     <link rel="stylesheet" href="../css/Inve.css">
 </head>
 <body>
-    <div class="container">
-        <div class="form-image">
-            <img src="../img/logo mysa amarelo@300x.png" alt="Logo">
+    <header class="main-header">
+        <div class="logo-container">
+            <img src="../img/logo mysa preto@300x.png" alt="Mysa Logo">
         </div>
+        <nav>
+            <ul>
+                <li><a href="Inve.html" class="active">Cadastrar Dispositivo</a></li>
+                <li><a href="Visualizar.html">Visualizar Inventário</a></li>
+                <li><button class="logout-button" id="logout-btn">Sair</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="content-container">
         <form class="form" id="cadastro-form">
             <div class="form-header">
                 <h1>Cadastro de Dispositivo</h1>
+                <p>Preencha os detalhes abaixo para adicionar um novo item ao inventário.</p>
             </div>
 
-            <div id="feedback-message"></div>
+            <div id="feedback-message" class="feedback-message"></div>
 
             <div class="input-group">
                 <div class="input-box">

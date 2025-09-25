@@ -13,15 +13,15 @@ document.addEventListener("DOMContentLoaded", () => {
         dados.forEach(maquina => {
             const tr = document.createElement("tr");
             tr.innerHTML = `
-                <td>${maquina.localidade}</td>
-                <td>${maquina.dispositivo}</td>
-                <td>${maquina.serie}</td>
-                <td>${maquina.nota_fiscal}</td>
-                <td>${maquina.responsavel}</td>
-                <td><a href="mailto:${maquina.email}">${maquina.email}</a></td>
-                <td>${maquina.setor}</td>
-                <td>${maquina.win_update}</td>
-                <td>${maquina.sistema_operacional}</td>
+                <td data-label="Localidade">${maquina.localidade}</td>
+                <td data-label="Dispositivo">${maquina.dispositivo}</td>
+                <td data-label="Série">${maquina.serie}</td>
+                <td data-label="Nota Fiscal">${maquina.nota_fiscal}</td>
+                <td data-label="Responsável">${maquina.responsavel}</td>
+                <td data-label="E-mail"><a href="mailto:${maquina.email}">${maquina.email}</a></td>
+                <td data-label="Setor">${maquina.setor}</td>
+                <td data-label="Win Update">${maquina.win_update}</td>
+                <td data-label="SO">${maquina.sistema_operacional}</td>
             `;
             tabelaCorpo.appendChild(tr);
         });
@@ -62,4 +62,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Evento de input para pesquisa
     pesquisaInput.addEventListener("input", filtrarMaquinas);
+});
+
+document.getElementById('logout-btn').addEventListener('click', async () => {
+    try {
+        const response = await fetch('../api/logout.php', {
+            method: 'POST',
+        });
+        const result = await response.json();
+        if (response.ok) {
+            window.location.href = result.redirect;
+        } else {
+            alert('Erro ao fazer logout.');
+        }
+    } catch (error) {
+        console.error('Falha na comunicação com o servidor:', error);
+        alert('Não foi possível se conectar ao servidor.');
+    }
 });
