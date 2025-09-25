@@ -1,74 +1,85 @@
 <?php
-// api/cadastrar_usuario.php
+// Inclui o arquivo de conexão com o banco de dados
+require_once 'conexao.php';
 
-// Define que a resposta será no formato JSON
+// Define o cabeçalho da resposta como JSON
 header('Content-Type: application/json');
-// Permite requisições de qualquer origem (CORS)
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: POST, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type');
 
-// Se a requisição for OPTIONS, apenas retorne os headers e saia.
-if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+// Verifica se o método da requisição é POST
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    http_response_code(405); // Método não permitido
+    echo json_encode(['message' => 'Método não permitido.']);
     exit;
 }
 
-// Inclui o arquivo de conexão com o banco de dados
-require 'conexao.php';
-
-// Pega os dados JSON enviados pelo frontend
-$data = json_decode(file_get_contents("php://input"));
+// Pega o corpo da requisição e decodifica o JSON
+$data = json_decode(file_get_contents('php://input'), true);
 
 // Validação dos dados recebidos
-if (!isset($data->nome) || !isset($data->email) || !isset($data->senha)) {
-    http_response_code(400); // Bad Request
-    echo json_encode(['message' => 'Dados incompletos!']);
+if (!isset($data['nome']) || !isset($data['email']) || !isset($data['senha'])) {
+    http_response_code(400); // Requisição inválida
+    echo json_encode(['message' => 'Dados incompletos. Por favor, preencha todos os campos.']);
     exit;
 }
 
-$nome = $data->nome;
-$email = $data->email;
-$senha = $data->senha;
+$nome = trim($data['nome']);
+$email = trim($data['email']);
+$senha = $data['senha'];
 
-// Validação adicional no servidor
+// Validações adicionais
+if (empty($nome) || empty($email) || empty($senha)) {
+    http_response_code(400);
+    echo json_encode(['message' => 'Nenhum campo pode estar vazio.']);
+    exit;
+}
+
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    http_response_code(400);
+    echo json_encode(['message' => 'Formato de e-mail inválido.']);
+    exit;
+}
+
 if (strlen($senha) < 6) {
     http_response_code(400);
     echo json_encode(['message' => 'A senha deve ter no mínimo 6 caracteres.']);
     exit;
 }
 
-// Criptografa a senha com o método mais seguro do PHP
-$senha_hash = password_hash($senha, PASSWORD_BCRYPT);
+// Tenta executar as operações no banco de dados
+try {
+    // 1. Verifica se o e-mail já está cadastrado
+    $sql_check = "SELECT id FROM usuarios WHERE email = :email";
+    $stmt_check = $pdo->prepare($sql_check);
+    $stmt_check->execute(['email' => $email]);
 
-// Prepara a query SQL para evitar SQL Injection
-$sql = "INSERT INTO usuarios (nome, email, senha_hash) VALUES (?, ?, ?)";
-
-$stmt = $con->prepare($sql);
-if ($stmt === false) {
-    http_response_code(500);
-    echo json_encode(['message' => 'Erro ao preparar a query.']);
-    exit;
-}
-
-// 'sss' indica que os 3 parâmetros são strings
-$stmt->bind_param('sss', $nome, $email, $senha_hash);
-
-// Executa a query
-if ($stmt->execute()) {
-    http_response_code(201); // Created
-    echo json_encode(['message' => 'Usuário cadastrado com sucesso!']);
-} else {
-    // Verifica se o erro é de e-mail duplicado (código de erro 1062)
-    if ($con->errno == 1062) {
-        http_response_code(409); // Conflict
-        echo json_encode(['message' => 'Este e-mail já está em uso!']);
-    } else {
-        http_response_code(500);
-        echo json_encode(['message' => 'Erro ao salvar no banco de dados.', 'error' => $stmt->error]);
+    if ($stmt_check->fetch()) {
+        http_response_code(409); // Conflito
+        echo json_encode(['message' => 'Este e-mail já está em uso.']);
+        exit;
     }
+
+    // 2. Criptografa a senha
+    $senhaHash = password_hash($senha, PASSWORD_ARGON2ID);
+
+    // 3. Insere o novo usuário no banco de dados
+    $sql_insert = "INSERT INTO usuarios (nome, email, senha) VALUES (:nome, :email, :senha)";
+    $stmt_insert = $pdo->prepare($sql_insert);
+
+    $stmt_insert->execute([
+        'nome' => $nome,
+        'email' => $email,
+        'senha' => $senhaHash
+    ]);
+
+    // Resposta de sucesso
+    http_response_code(201); // Criado
+    echo json_encode(['message' => 'Usuário cadastrado com sucesso!']);
+
+} catch (PDOException $e) {
+    // Em caso de erro no banco de dados, retorna uma mensagem genérica
+    http_response_code(500); // Erro interno do servidor
+    // Em produção, logar o erro em vez de exibi-lo
+    echo json_encode(['message' => 'Erro ao processar sua solicitação: ' . $e->getMessage()]);
 }
 
-// Fecha o statement e a conexão
-$stmt->close();
-$con->close();
 ?>
