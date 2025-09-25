@@ -1,33 +1,48 @@
 <?php
-// listar_maquinas.php
+// Inclui o arquivo de conexão com o banco de dados
+require_once 'conexao.php';
 
+// Define o cabeçalho da resposta como JSON
 header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: *'); // Permitir acesso de qualquer origem
 
-require 'conexao.php';
-
-// Query para selecionar os dados
-$sql = "SELECT localidade, dispositivo, serie, nota_fiscal, responsavel, email, setor, win_update, sistema_operacional FROM maquinas ORDER BY id DESC";
-
-$result = $con->query($sql);
-
-$maquinas = [];
-
-if ($result) {
-    // Itera sobre os resultados e os adiciona a um array
-    while ($row = $result->fetch_assoc()) {
-        $maquinas[] = $row;
-    }
-} else {
-    http_response_code(500);
-    echo json_encode(["error" => "Erro ao executar a consulta: " . $con->error]);
-    $con->close();
+// Verifica se o método da requisição é GET
+if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
+    http_response_code(405); // Método não permitido
+    echo json_encode(['message' => 'Método não permitido.']);
     exit;
 }
 
-// Retorna o array de máquinas em formato JSON
-echo json_encode($maquinas);
+try {
+    // Prepara e executa a consulta para buscar todos os dispositivos
+    $sql = "SELECT
+                localidade,
+                nome_dispositivo AS dispositivo, -- Renomeia para corresponder ao frontend
+                numero_serie AS serie,          -- Renomeia para corresponder ao frontend
+                nota_fiscal,
+                responsavel,
+                email,
+                setor,
+                windows_update_ativo AS win_update, -- Renomeia para corresponder ao frontend
+                sistema_operacional,
+                observacao
+            FROM
+                dispositivos
+            ORDER BY
+                id DESC"; // Ordena pelos mais recentes
 
-// Fecha a conexão
-$con->close();
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute();
+
+    // Busca todos os resultados
+    $maquinas = $stmt->fetchAll();
+
+    // Retorna os resultados como JSON
+    echo json_encode($maquinas);
+
+} catch (PDOException $e) {
+    // Em caso de erro no banco de dados, retorna uma mensagem de erro
+    http_response_code(500); // Erro interno do servidor
+    echo json_encode(['error' => 'Erro ao buscar os dados do inventário: ' . $e->getMessage()]);
+}
+
 ?>

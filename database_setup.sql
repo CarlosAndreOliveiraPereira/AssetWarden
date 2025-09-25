@@ -21,4 +21,21 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   `data_cadastro` TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- Data e hora do cadastro do usuário
 ) ENGINE=InnoDB;
 
--- Fim do script. O banco de dados e a tabela estão prontos para serem usados.
+-- 4. Criação da Tabela de Dispositivos (`dispositivos`)
+-- Esta tabela armazenará as informações do inventário de máquinas.
+CREATE TABLE IF NOT EXISTS `dispositivos` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `localidade` VARCHAR(255) NOT NULL,
+  `nome_dispositivo` VARCHAR(255) NOT NULL,
+  `numero_serie` VARCHAR(255) NOT NULL UNIQUE,
+  `nota_fiscal` VARCHAR(255) NOT NULL,
+  `responsavel` VARCHAR(255) NOT NULL,
+  `email` VARCHAR(255) NOT NULL,
+  `setor` VARCHAR(255) NOT NULL,
+  `windows_update_ativo` VARCHAR(50) NOT NULL,
+  `sistema_operacional` VARCHAR(255) NOT NULL,
+  `observacao` TEXT,
+  `data_cadastro` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
+-- Fim do script. O banco de dados e as tabelas estão prontos para serem usados.
