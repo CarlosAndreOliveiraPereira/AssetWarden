@@ -1,78 +1,77 @@
 <?php
-// api/login_usuario.php
-
-// Inicia a sessão para que possamos usar variáveis de sessão se necessário no futuro
+// Inicia a sessão ANTES de qualquer saída de HTML ou PHP.
+// Isso é crucial para o gerenciamento do estado de login.
 session_start();
 
-// Define que a resposta será no formato JSON
-header('Content-Type: application/json');
-// Permite requisições de qualquer origem (CORS)
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: POST, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type');
+// Inclui o arquivo de conexão com o banco de dados
+require_once 'conexao.php';
 
-// Se a requisição for OPTIONS, apenas retorne os headers e saia.
-if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+// Define o cabeçalho da resposta como JSON
+header('Content-Type: application/json');
+
+// Verifica se o método da requisição é POST
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    http_response_code(405); // Método não permitido
+    echo json_encode(['message' => 'Método não permitido.']);
     exit;
 }
 
-// Inclui o arquivo de conexão com o banco de dados
-require 'conexao.php';
-
-// Pega os dados JSON enviados pelo frontend
-$data = json_decode(file_get_contents("php://input"));
+// Pega o corpo da requisição e decodifica o JSON
+$data = json_decode(file_get_contents('php://input'), true);
 
 // Validação dos dados recebidos
-if (!isset($data->email) || !isset($data->password)) {
-    http_response_code(400); // Bad Request
-    echo json_encode(['message' => 'E-mail e senha são obrigatórios!']);
+if (!isset($data['email']) || !isset($data['password'])) {
+    http_response_code(400); // Requisição inválida
+    echo json_encode(['message' => 'E-mail e senha são obrigatórios.']);
     exit;
 }
 
-$email = $data->email;
-$senha = $data->password;
+$email = trim($data['email']);
+$senha = $data['password'];
 
-// Prepara a query SQL para buscar o usuário pelo e-mail
-$sql = "SELECT id, nome, senha_hash FROM usuarios WHERE email = ? LIMIT 1";
-
-$stmt = $con->prepare($sql);
-if ($stmt === false) {
-    http_response_code(500);
-    echo json_encode(['message' => 'Erro ao preparar a consulta.']);
+// Validações adicionais
+if (empty($email) || empty($senha)) {
+    http_response_code(400);
+    echo json_encode(['message' => 'E-mail e senha não podem estar vazios.']);
     exit;
 }
 
-// 's' indica que o parâmetro é uma string
-$stmt->bind_param('s', $email);
-$stmt->execute();
-$result = $stmt->get_result();
-
-if ($result->num_rows === 1) {
-    // Usuário encontrado, agora verifica a senha
-    $usuario = $result->fetch_assoc();
+// Tenta executar as operações no banco de dados
+try {
+    // 1. Busca o usuário pelo e-mail
+    $sql = "SELECT id, nome, senha FROM usuarios WHERE email = :email";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(['email' => $email]);
     
-    // password_verify() compara a senha enviada com o hash salvo no banco
-    if (password_verify($senha, $usuario['senha_hash'])) {
-        // Senha correta
-        
-        // Opcional: Salvar informações do usuário na sessão
-        $_SESSION['usuario_id'] = $usuario['id'];
-        $_SESSION['usuario_nome'] = $usuario['nome'];
+    $usuario = $stmt->fetch();
 
-        http_response_code(200); // OK
-        echo json_encode(['message' => 'Login realizado com sucesso!']);
-    } else {
-        // Senha incorreta
-        http_response_code(401); // Unauthorized
+    // 2. Verifica se o usuário existe e se a senha está correta
+    if (!$usuario || !password_verify($senha, $usuario['senha'])) {
+        http_response_code(401); // Não autorizado
         echo json_encode(['message' => 'E-mail ou senha inválidos.']);
+        exit;
     }
-} else {
-    // Usuário não encontrado
-    http_response_code(401); // Unauthorized
-    echo json_encode(['message' => 'E-mail ou senha inválidos.']);
+
+    // 3. Se a autenticação for bem-sucedida, armazena os dados na sessão
+    // Regenera o ID da sessão para evitar ataques de fixação de sessão
+    session_regenerate_id(true);
+
+    $_SESSION['usuario_id'] = $usuario['id'];
+    $_SESSION['usuario_nome'] = $usuario['nome'];
+    $_SESSION['logged_in'] = true;
+
+    // Resposta de sucesso
+    http_response_code(200); // OK
+    echo json_encode([
+        'message' => 'Login bem-sucedido!',
+        'redirect' => 'Inve.html' // Informa ao frontend para onde redirecionar
+    ]);
+
+} catch (PDOException $e) {
+    // Em caso de erro no banco de dados, retorna uma mensagem genérica
+    http_response_code(500); // Erro interno do servidor
+    // Em produção, logar o erro em vez de exibi-lo
+    echo json_encode(['message' => 'Erro ao processar sua solicitação: ' . $e->getMessage()]);
 }
 
-// Fecha o statement e a conexão
-$stmt->close();
-$con->close();
 ?>
