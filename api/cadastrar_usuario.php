@@ -39,6 +39,14 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     exit;
 }
 
+// Validação do domínio do e-mail
+$allowed_domain = '@grupomysa.com.br';
+if (!str_ends_with($email, $allowed_domain)) {
+    http_response_code(400);
+    echo json_encode(['message' => 'O e-mail deve pertencer ao domínio @grupomysa.com.br.']);
+    exit;
+}
+
 if (strlen($senha) < 6) {
     http_response_code(400);
     echo json_encode(['message' => 'A senha deve ter no mínimo 6 caracteres.']);
