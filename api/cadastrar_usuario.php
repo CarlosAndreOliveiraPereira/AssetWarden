@@ -59,7 +59,7 @@ try {
     }
 
     // 2. Criptografa a senha
-    $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
+    $senhaHash = password_hash($senha, PASSWORD_ARGON2ID);
 
     // 3. Insere o novo usuário no banco de dados
     $sql_insert = "INSERT INTO usuarios (nome, email, senha) VALUES (:nome, :email, :senha)";
