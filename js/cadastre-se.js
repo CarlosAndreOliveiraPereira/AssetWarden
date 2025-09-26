@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
                 if (response.ok) { // Se a resposta for sucesso (status 2xx)
                     alert(result.message); // "Usuário cadastrado com sucesso!"
-                    window.location.href = "login.html"; // Redireciona para o login
+                    window.location.href = "ver-cadastro.html"; // Redireciona para a visualização
                 } else { // Se a resposta for erro (status 4xx ou 5xx)
                     // Mostra o erro em um local mais visível, como no campo de email
                     showError(emailInput, result.message);
