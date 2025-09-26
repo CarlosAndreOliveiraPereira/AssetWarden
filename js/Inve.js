@@ -33,11 +33,18 @@ document.getElementById("cadastro-form").addEventListener("submit", async functi
         if (response.ok) { // Sucesso (status 201)
             feedbackMessage.textContent = result.message;
             feedbackMessage.className = 'success';
+            
+            // Salva os dados no localStorage para a página de visualização
+            for (const key in dispositivoData) {
+                localStorage.setItem(key, dispositivoData[key]);
+            }
+
             event.target.reset(); // Limpa o formulário
-            // Opcional: redirecionar após um tempo
+            
+            // Redireciona para a página de visualização do cadastro
             setTimeout(() => {
-                window.location.href = "Visualizar.html"; // Caminho corrigido
-            }, 2000); // Redireciona após 2 segundos
+                window.location.href = "ver-cadastro.html";
+            }, 1500); // Redireciona após 1.5 segundos
         } else { // Erro (status 4xx, 5xx)
             feedbackMessage.textContent = `Erro: ${result.message}`;
             feedbackMessage.className = 'error';
