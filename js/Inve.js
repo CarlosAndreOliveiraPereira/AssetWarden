@@ -58,3 +58,20 @@ document.getElementById("cadastro-form").addEventListener("submit", async functi
 
     feedbackMessage.style.display = 'block';
 });
+
+document.getElementById('logout-btn').addEventListener('click', async () => {
+    try {
+        const response = await fetch('../api/logout.php', {
+            method: 'POST',
+        });
+        const result = await response.json();
+        if (response.ok) {
+            window.location.href = result.redirect;
+        } else {
+            alert('Erro ao fazer logout.');
+        }
+    } catch (error) {
+        console.error('Falha na comunicação com o servidor:', error);
+        alert('Não foi possível se conectar ao servidor.');
+    }
+});

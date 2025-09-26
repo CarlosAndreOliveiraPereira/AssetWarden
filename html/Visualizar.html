@@ -4,18 +4,26 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Máquinas Cadastradas</title>
+  <link rel="stylesheet" href="../css/shared.css">
   <link rel="stylesheet" href="../css/Visualizar.css">
 </head>
 <body>
 
-<div class="container">
+<header class="main-header">
+    <div class="logo-container">
+        <img src="../img/logo mysa preto@300x.png" alt="Mysa Logo">
+    </div>
+    <nav>
+        <ul>
+            <li><a href="Inve.html">Cadastrar Dispositivo</a></li>
+            <li><a href="Visualizar.html" class="active">Visualizar Inventário</a></li>
+            <li><button class="logout-button" id="logout-btn">Sair</button></li>
+        </ul>
+    </nav>
+</header>
 
-  <!-- Logo adicionada aqui -->
-  <div class="logo-container">
-    <img src="../img/logo mysa preto@300x.png" alt="Logo Mysa">
-  </div>
-
-  <h1>Máquinas Cadastradas</h1>
+<div class="content-container">
+  <h1>Inventário de Máquinas</h1>
 
   <div class="pesquisa-container">
     <input type="text" id="pesquisa" placeholder="Pesquisar por qualquer informação...">

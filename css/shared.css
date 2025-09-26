@@ -1,0 +1,109 @@
+/* --- Google Fonts Import --- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* --- CSS Variables for Consistent Theming --- */
+:root {
+    --primary-color: #FFC107; /* Amarelo principal (logo) */
+    --primary-dark: #FFA000;
+    --secondary-color: #4A4A4A; /* Cinza escuro para texto */
+    --background-color: #F4F6F8; /* Fundo cinza claro */
+    --form-background: #FFFFFF;
+    --border-color: #E0E0E0;
+    --success-color: #4CAF50;
+    --error-color: #F44336;
+    --white-color: #FFFFFF;
+    --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* --- General Body and Reset Styles --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--secondary-color);
+    line-height: 1.6;
+}
+
+/* --- Navigation Header --- */
+.main-header {
+    background-color: var(--form-background);
+    box-shadow: var(--box-shadow);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.main-header .logo-container img {
+    height: 40px;
+}
+
+.main-header nav ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.main-header nav a {
+    text-decoration: none;
+    color: var(--secondary-color);
+    font-weight: 500;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.main-header nav a:hover, .main-header nav a.active {
+    color: var(--primary-color);
+}
+
+.main-header .logout-button {
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.main-header .logout-button:hover {
+    background-color: var(--primary-dark);
+}
+
+/* --- General Container for Content --- */
+.content-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* --- Shared Feedback Message Styles --- */
+.feedback-message {
+    padding: 1rem;
+    border-radius: 6px;
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+    display: none; /* Hidden by default */
+}
+
+.feedback-message.success {
+    background-color: #DFF0D8;
+    color: var(--success-color);
+    border: 1px solid #D6E9C6;
+    display: block;
+}
+
+.feedback-message.error {
+    background-color: #F2DEDE;
+    color: var(--error-color);
+    border: 1px solid #EBCCD1;
+    display: block;
+}

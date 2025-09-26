@@ -1,117 +1,138 @@
-* {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-  font-family: 'Inter', sans-serif;
+/* --- Import Shared Styles --- */
+@import url('shared.css');
+
+/* --- Page Header --- */
+.content-container h1 {
+    font-size: 2.2rem;
+    color: var(--secondary-color);
+    margin-bottom: 1.5rem;
+    text-align: center;
 }
 
-body {
-  width: 100%;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  background: #181918;
-  padding: 2rem 1rem;
-}
-
-.container {
-  width: 100%;
-  max-width: 1200px;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 5px 5px 15px #efb421;
-  padding: 2rem;
-  position: relative;
-}
-
-/* Logo */
-.logo-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 1.5rem;
-}
-
-.logo-container img {
-  max-width: 250px;
-  width: 100%;
-  height: auto;
-}
-
-/* Título */
-h1 {
-  text-align: center;
-  font-size: 1.8rem;
-  margin-bottom: 2rem;
-  color: #181918;
-}
-
-/* Campo de pesquisa */
+/* --- Search Bar --- */
 .pesquisa-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 2rem;
-  gap: 0.5rem;
+    position: relative;
+    max-width: 500px;
+    margin: 0 auto 2rem auto;
 }
 
 .pesquisa-container input {
-  width: 100%;
-  max-width: 400px;
-  padding: 0.75rem 1rem;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  box-shadow: 1px 1px 6px #0000001c;
+    width: 100%;
+    padding: 0.8rem 1rem 0.8rem 2.5rem; /* Add padding for the icon */
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.pesquisa-container input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.3);
 }
 
 .pesquisa-container .lupa {
-  width: 25px;
-  height: 25px;
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 18px;
+    opacity: 0.5;
 }
 
-/* Tabela */
-table {
-  width: 100%;
-  border-collapse: collapse;
+/* --- Table Styling --- */
+#tabelaMaquinas {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--form-background);
+    box-shadow: var(--box-shadow);
+    border-radius: 8px;
+    overflow: hidden; /* Ensures the border-radius is applied to the table */
 }
 
-table thead {
-  background-color: #efb421;
-  color: #fff;
+#tabelaMaquinas th,
+#tabelaMaquinas td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
 }
 
-table th,
-table td {
-  padding: 0.8rem;
-  border: 1px solid #ddd;
-  text-align: center;
-  font-size: 0.9rem;
+#tabelaMaquinas thead {
+    background-color: #F9FAFB;
 }
 
-table tbody tr:nth-child(even) {
-  background-color: #f9f9f9;
+#tabelaMaquinas th {
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #6c757d;
 }
 
+#tabelaMaquinas tbody tr:last-child td {
+    border-bottom: none;
+}
+
+#tabelaMaquinas tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+#tabelaMaquinas td a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+#tabelaMaquinas td a:hover {
+    text-decoration: underline;
+}
+
+/* --- "No Data" Message --- */
 .sem-dados {
-  margin-top: 1.5rem;
-  text-align: center;
-  font-size: 1rem;
-  color: #888;
+    text-align: center;
+    padding: 2rem;
+    background-color: var(--form-background);
+    box-shadow: var(--box-shadow);
+    border-radius: 8px;
+    font-weight: 500;
+    color: #6c757d;
 }
 
-/* Responsivo */
-@media screen and (max-width: 768px) {
-  h1 {
-    font-size: 1.4rem;
-  }
+/* --- Responsive Table --- */
+@media (max-width: 992px) {
+    #tabelaMaquinas thead {
+        display: none; /* Hide table header on small screens */
+    }
 
-  .pesquisa-container {
-    flex-direction: column;
-    align-items: stretch;
-  }
+    #tabelaMaquinas, #tabelaMaquinas tbody, #tabelaMaquinas tr, #tabelaMaquinas td {
+        display: block;
+        width: 100%;
+    }
 
-  .pesquisa-container input {
-    max-width: 100%;
-  }
+    #tabelaMaquinas tr {
+        margin-bottom: 1rem;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+    }
+
+    #tabelaMaquinas td {
+        text-align: right;
+        padding-left: 50%;
+        position: relative;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    #tabelaMaquinas td:last-child {
+        border-bottom: none;
+    }
+
+    #tabelaMaquinas td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 1rem;
+        width: calc(50% - 2rem);
+        padding-right: 10px;
+        text-align: left;
+        font-weight: 600;
+        color: var(--secondary-color);
+    }
 }
